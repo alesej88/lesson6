@@ -1,9 +1,7 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.*;
 import java.net.Socket;
 
-public class SimpleSingleConsoleClient {
+public class MyConsoleClient {
 
     private static final String HOST = "localhost";
     private static final int PORT = 12256;
@@ -13,7 +11,7 @@ public class SimpleSingleConsoleClient {
 
 
     public static void main(String[] args) {
-        new SimpleSingleConsoleClient().runClient();
+        new MyConsoleClient().runClient();
 
     }
     private void runClient() {
