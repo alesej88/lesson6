@@ -1,7 +1,6 @@
 import org.w3c.dom.ls.LSOutput;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class SimpleSingleConsoleClient {
@@ -17,19 +16,50 @@ public class SimpleSingleConsoleClient {
         new SimpleSingleConsoleClient().runClient();
 
     }
-    private void runClient(){
-        try(Socket socket = new Socket(HOST, PORT)){
-        System.out.println("Client started!");
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
-        startConsoleThread();
+    private void runClient() {
+        try (Socket socket = new Socket(HOST, PORT)) {
+            System.out.println("Client started!");
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+            startConsoleThread();
 
-        while (true){
-String msg = in.readUTF();
-if (msg.equals("/end")){
-shutdownClient(socket);
-break;
+            while (true) {
+                String msg = in.readUTF();
+                if (msg.equals("/end")) {
+                    shutdownClient(socket);
+                    break;
+                }
+                System.out.println("Received: " + msg);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            System.out.println("FINISHED");
         }
-            System.out.println("Received: " + msg);
+        }
+        private void shutdownClient(Socket socket) throws IOException{
+        clientConsoleThread.interrupt();
+        socket.close();
+            System.out.println("Client stopped");
+        }
+        private void startConsoleThread(){
+        clientConsoleThread = new Thread(() -> {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("You can enter message from server");
+            try{
+                while (!Thread.currentThread().isInterrupted());
+                if(bufferedReader.ready()){
+                    String messageFromClient = bufferedReader.readLine();
+                    out.writeUTF(messageFromClient);
+                    Thread.sleep(200);
+                }
+
+            }catch (IOException | InterruptedException e){
+                e.printStackTrace();
+            }
+
+    });
+        clientConsoleThread.start();
+        }
     }
-}
+

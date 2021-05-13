@@ -23,7 +23,7 @@ public class VeryVerySimpleClient {
                 message = in.readUTF();
                 System.out.println("Received: " + message);
             }
-        }catch (IOException || InterruptedException e);
+        }catch (IOException | InterruptedException e);
         e.printStackTrace();
 
     }

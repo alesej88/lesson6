@@ -58,7 +58,7 @@ private void startConsoleThread(){
                         Thread.sleep(200);
                     }
                 }
-            } catch (IOException ||InterruptedException e){
+            } catch (IOException | InterruptedException e){
             e.printStackTrace();
         }
 
