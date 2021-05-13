@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class VeryVerySimpleClient {
+public class ExampleSimpleClient {
     private static final String HOST = "localhost";
     private static final int PORT = 12256;
     private static final Scanner SCANNER = new Scanner((System.in);
@@ -23,7 +23,7 @@ public class VeryVerySimpleClient {
                 message = in.readUTF();
                 System.out.println("Received: " + message);
             }
-        }catch (IOException || InterruptedException e);
+        }catch (IOException | InterruptedException e);
         e.printStackTrace();
 
     }
